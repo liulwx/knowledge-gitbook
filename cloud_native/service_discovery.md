@@ -17,7 +17,7 @@
 这种方法优点就是客户端会有更多的权限，可以自己制定负载均衡的策略（但好像并不是很需要，对客户端的开发量显著增加，而且对于web的客户端几乎无法实现） 
 但是这种方法有一个明显的缺点，就是需要在客户端实现服务位置发现的逻辑，耦合性比较重 
 
-<img src="./picture/client_discovery.png" height="200px">
+<img src="./picture/service_discovery/client_discovery.png" height="200px">
 
 ## 服务端发现 
 俗话说的好，在软件领域的所有问题都可以通过添加一个中间层来实现。既然不想让客户端来实现逻辑，那么把这个模块放在注册模块之前，客户端去访问这个模块不就好了么？而这个模块其实就是传说中的LoadBalancer。 
@@ -26,7 +26,7 @@
 
 我们一般采用的也都是服务端发现的模式 
 
-<img src="./picture/middleware_register.png" height="200px">
+<img src="./picture/service_discovery/middleware_register.png" height="200px">
 
 ## 服务注册中心 
 可以看出来，服务注册中心是该模式中的核心组件，无论哪种方式，都是需要一个服务注册中心的。 
@@ -54,12 +54,12 @@ https://github.com/etcd-io/etcd/blob/master/Documentation/learning/why.md
 ### 服务注册：   
 服务注册也有两种方式，一种是服务直接向服务中心注册，另外一种是有一个专门的注册中间件，来负责将服务注册到注册中心。 
 #### 直接注册 
-<img src="./picture/direct_register.png"  height="200px">
+<img src="./picture/service_discovery/direct_register.png"  height="200px">
 
 直接注册的方式比较容易理解，也非常的直观。但是缺点也同样明显，就是服务端需要与注册中心有一个比较强的耦合关系。 
 
 #### 通过中间件注册 
-<img src="./picture/middleware_register.png" height="200px">
+<img src="./picture/service_discovery/middleware_register.png" height="200px">
 
 还是那句俗话，软件设计领域所有的事情都可以通过增加一个中间件来完成。具体的做法是中间件通过轮询部署环境中的服务或者订阅事件来追踪服务实例的变化，代替服务本身完成与注册中心的交互。红框内就是我们的注册中间件。 
 
